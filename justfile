@@ -31,6 +31,13 @@ local_docker:
   docker compose --env-file .env -f docker/docker-compose.yml up
 
 
+pub:
+  #!/usr/bin/env bash
+  rye version -b minor
+  rye build --clean
+  rye build --all --out target 
+  rye publish --yes
+
 # ============================================= #
 # Code Section
 # ============================================= #

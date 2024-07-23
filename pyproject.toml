@@ -1,17 +1,19 @@
 [project]
-name = "trading-toolbox"
-version = "0.1.0"
+name = "tradingtoolbox"
+version = "0.7.0"
 description = "Add your description here"
 authors = [
     { name = "Alpha Zen", email = "" }
 ]
-dependencies = []
+dependencies = [
+    "clickhouse-connect>=0.7.16",
+]
 readme = "README.md"
 requires-python = ">= 3.8"
 license = { text = "MIT" }
 
 [project.scripts]
-"dev" = "trading_toolbox:main"
+"dev" = "tradingtoolbox:main"
 
 [tool.rye.scripts]
 rye_script = {cmd = 'echo hello world'}
@@ -36,7 +38,7 @@ dev-dependencies = [
 allow-direct-references = true
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/trading_toolbox"]
+packages = ["src/tradingtoolbox"]
 
 [tool.pyright]
 venvPath = "."
