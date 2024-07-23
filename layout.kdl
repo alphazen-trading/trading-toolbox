@@ -1,0 +1,12 @@
+layout {
+  pane split_direction="vertical"  {
+    pane size="30%" {
+      pane command="rye"  {
+        args "run" "rs_dev"
+      }
+    }
+    pane command="rye" {
+      args "run" "py_watch"
+    }
+  }
+}

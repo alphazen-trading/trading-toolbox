@@ -1,0 +1,98 @@
+version: '3.8'
+
+services:
+  influxdb:
+    image: influxdb:latest
+    container_name: influxdb
+    volumes:
+      - influxdb_data:/var/lib/influxdb2
+    environment:
+      DOCKER_INFLUXDB_INIT_MODE: setup 
+      DOCKER_INFLUXDB_INIT_USERNAME: admin 
+      DOCKER_INFLUXDB_INIT_PASSWORD: influxpassword
+      DOCKER_INFLUXDB_INIT_ORG: myorg
+      DOCKER_INFLUXDB_INIT_DB: influx
+      DOCKER_INFLUXDB_INIT_BUCKET: telegraf
+      DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: mytoken
+    ports:
+      - "8086:8086"
+
+
+  telegraf:
+    image: telegraf:latest
+    # network_mode: host
+    container_name: telegraf
+    privileged: true
+    environment:
+      HOST_PROC: /hostfs/proc
+      HOST_SYS: /hostfs/sys
+      HOST_ETC: /hostfs/etc
+      HOST_VAR: /hostfs/var
+      HOST_RUN: /hostfs/run
+      HOST_MOUNT_PREFIX: /hostfs
+      DOCKER_INFLUXDB_INIT_ORG: myorg
+      DOCKER_INFLUXDB_INIT_DB: influx
+      DOCKER_INFLUXDB_INIT_BUCKET: telegraf
+      DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: mytoken
+    volumes:
+      - ./telegraf.conf:/etc/telegraf/telegraf.conf:ro
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /:/hostfs:ro
+      - /run/udev:/run/udev:ro
+    restart: always
+    depends_on:
+      - influxdb
+    links:
+      - influxdb
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    user: "472:472"
+    ports:
+      - "8000:3000"
+    volumes:
+      - ./provisioning:/etc/grafana/provisioning
+      - ./grafana_data:/var/lib/grafana
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: pass
+      GF_INSTALL_PLUGINS: grafana-clickhouse-datasource
+
+  clickhouse:
+    image: clickhouse/clickhouse-server:latest
+    container_name: clickhouse
+    ports:
+      - "8123:8123" # http interface
+      - "9000:9000" # native client
+      - "9009:9009" # grpc server (optional)
+    ulimits:
+      nofile:
+        soft: 262144
+        hard: 262144
+    volumes:
+      - clickhouse_data:/var/lib/clickhouse
+
+  promtail:
+    image: grafana/promtail:latest
+    volumes:
+      - ./promtail-config.yaml:/etc/promtail/promtail-config.yaml:ro
+      - /var/log:/var/log
+      - /opt/logs:/opt/project
+    command: -config.file=/etc/promtail/promtail-config.yaml
+    ports:
+      - "9080:9080"
+
+  loki:
+    image: grafana/loki:latest
+    container_name: loki
+    ports:
+      - "3100:3100"
+    command: -config.file=/etc/loki/local-config.yaml
+
+
+
+volumes:
+  clickhouse_data:
+  influxdb_data:

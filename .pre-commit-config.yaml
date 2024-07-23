@@ -1,0 +1,69 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+#
+files: ^src/
+repos:
+  - repo: https://github.com/commitizen-tools/commitizen
+    rev: v3.27.0 
+    hooks:
+      - id: commitizen
+        name: commitizen check
+        description: >
+          Check whether the current commit message follows committing rules. Allow
+          empty commit messages by default, because they typically indicate to Git
+          that the commit should be aborted.
+        entry: rye run cz check --allow-abort --commit-msg-file
+        args: ["/tmp/msg"]
+        always_run: true
+        pass_filenames: false
+        minimum_pre_commit_version: "2.9.2"
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v3.2.0
+    hooks:
+    -   id: trailing-whitespace
+    -   id: end-of-file-fixer
+    -   id: check-yaml
+    -   id: check-added-large-files
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    # Ruff version.
+    rev: v0.4.10
+    hooks:
+      # Run the linter.
+      - id: ruff
+        args: [ --fix ]
+      # Run the formatter.
+      - id: ruff-format
+  - repo: local
+    hooks:
+    - id: rye-pyright
+      name: pyright
+      description: "Run pyright"
+      entry: rye run pyright
+      language: system
+      types_or: [python, pyi]
+      args: []
+      pass_filenames: false
+      require_serial: true
+      additional_dependencies: []
+      minimum_pre_commit_version: "2.9.2"
+    - id: rye-test
+      name: rye-test
+      description: "Test Python via 'rye test'"
+      entry: rye test
+      language: system
+      types_or: [python, pyi]
+      args: []
+      pass_filenames: false
+      require_serial: true
+      additional_dependencies: []
+      minimum_pre_commit_version: "2.9.2"
+
+    - id: cleanup
+      name: cleanup
+      description: "Clean things up"
+      entry: just cleanup
+      always_run: true
+      pass_filenames: false
+      language: system
+      stages: ["pre-push"]

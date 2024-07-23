@@ -1,0 +1,21 @@
+# python generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# venv
+.venv
+rs/target
+
+
+logs/*.log
+docker/grafana_data/grafana.db
+docker/grafana_data/alerting/*
+docker/grafana_data/csv/*
+docker/grafana_data/pdf/*
+docker/grafana_data/plugins/*
+docker/grafana_data/png/*
+.env
