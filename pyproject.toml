@@ -1,5 +1,5 @@
 [project]
-name = "trading-template"
+name = "trading-toolbox"
 version = "0.1.0"
 description = "Add your description here"
 authors = [
@@ -11,7 +11,7 @@ requires-python = ">= 3.8"
 license = { text = "MIT" }
 
 [project.scripts]
-"dev" = "trading_template:main"
+"dev" = "trading_toolbox:main"
 
 [tool.rye.scripts]
 rye_script = {cmd = 'echo hello world'}
@@ -36,7 +36,7 @@ dev-dependencies = [
 allow-direct-references = true
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/trading_template"]
+packages = ["src/trading_toolbox"]
 
 [tool.pyright]
 venvPath = "."
