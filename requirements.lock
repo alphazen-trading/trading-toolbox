@@ -10,15 +10,67 @@
 #   universal: false
 
 -e file:.
+aiohttp==3.9.5
+    # via python-binance
+aiosignal==1.3.1
+    # via aiohttp
+attrs==23.2.0
+    # via aiohttp
 certifi==2024.7.4
     # via clickhouse-connect
+    # via requests
+charset-normalizer==3.3.2
+    # via requests
 clickhouse-connect==0.7.16
     # via tradingtoolbox
+dateparser==1.2.0
+    # via python-binance
+frozenlist==1.4.1
+    # via aiohttp
+    # via aiosignal
+idna==3.7
+    # via requests
+    # via yarl
 lz4==4.3.3
     # via clickhouse-connect
+multidict==6.0.5
+    # via aiohttp
+    # via yarl
+numpy==2.0.1
+    # via pandas
+pandas==2.2.2
+    # via tradingtoolbox
+pycryptodome==3.20.0
+    # via python-binance
+python-binance==1.0.19
+    # via tradingtoolbox
+python-dateutil==2.9.0.post0
+    # via dateparser
+    # via pandas
+    # via tradingtoolbox
 pytz==2024.1
     # via clickhouse-connect
+    # via dateparser
+    # via pandas
+regex==2024.5.15
+    # via dateparser
+requests==2.32.3
+    # via python-binance
+six==1.16.0
+    # via python-binance
+    # via python-dateutil
+tzdata==2024.1
+    # via pandas
+tzlocal==5.2
+    # via dateparser
+ujson==5.10.0
+    # via python-binance
 urllib3==2.2.2
     # via clickhouse-connect
+    # via requests
+websockets==12.0
+    # via python-binance
+yarl==1.9.4
+    # via aiohttp
 zstandard==0.23.0
     # via clickhouse-connect

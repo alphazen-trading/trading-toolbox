@@ -9,7 +9,7 @@ def generate_table_schema(df, table_name):
             clickhouse_type = "Float64"
         elif dtype == "bool":
             clickhouse_type = "UInt8"
-        elif dtype == "datetime64[ns]":
+        elif dtype == "datetime64[ns]" or dtype == "datetime64[ns, UTC]":
             clickhouse_type = "DateTime"
         else:
             clickhouse_type = "String"

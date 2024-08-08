@@ -15,7 +15,6 @@ default_config = {
 class Clickhouse:
     def __init__(self, config=default_config):
         super().__init__()
-        self.tasks = asyncio.Queue()
         self.client = clickhouse_connect.get_client(
             host=config["host"],
             port=config["port"],
@@ -30,28 +29,6 @@ class Clickhouse:
         schema = generate_table_schema(df, table_name)
         self.client.command(schema)
         self.client.insert_df(table_name, df)
-
-    async def target(self, thread_ref):
-        if self.client is None:
-            return
-
-        try:
-            self.watcher_task = self.loop.create_task(self.queue_watcher())
-            await asyncio.gather(self.watcher_task)
-        except Exception as err:
-            print(err)
-        finally:
-            thread_ref._stop_finished.set()
-
-    async def queue_watcher(self):
-        while True:
-            command = await self.tasks.get()
-            try:
-                if self.client is not None:
-                    self.client.command(command)
-            except Exception as e:
-                print(e)
-            await asyncio.sleep(0.1)
 
     def execute_command(self, msg: str):
         self.client.command(msg)
