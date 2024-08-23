@@ -74,3 +74,6 @@ ENGINE = ReplacingMergeTree()
 
     def query(self, query):
         return self.client.query(query)
+
+    def query_df(self, query):
+        return self.client.query_df(query)
