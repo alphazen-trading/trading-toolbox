@@ -46,6 +46,19 @@ services:
     links:
       - influxdb
 
+  timescaledb:
+    image: timescale/timescaledb:latest-pg14
+    container_name: timescaledb
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=mydb
+    ports:
+      - "5432:5432"
+    volumes:
+      - timescaledb-data:/var/lib/postgresql/data
+    restart: unless-stopped
+
   grafana:
     image: grafana/grafana:latest
     container_name: grafana
@@ -58,7 +71,8 @@ services:
     environment:
       GF_SECURITY_ADMIN_USER: admin
       GF_SECURITY_ADMIN_PASSWORD: pass
-      GF_INSTALL_PLUGINS: grafana-clickhouse-datasource
+      GF_INSTALL_PLUGINS: grafana-clickhouse-datasource,yesoreyeram-infinity-datasource
+      GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS: timescale-prometheus-datasource
 
   clickhouse:
     image: clickhouse/clickhouse-server:latest
@@ -96,3 +110,4 @@ services:
 volumes:
   clickhouse_data:
   influxdb_data:
+  timescaledb-data:
