@@ -39,6 +39,7 @@ pub:
   rye build --all --out target 
   git add .
   git commit -m "build: automatic rye bump of project version"
+  git push
   rye publish --yes
   just pub-docs
 
