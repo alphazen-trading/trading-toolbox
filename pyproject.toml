@@ -1,6 +1,6 @@
 [project]
 name = "tradingtoolbox"
-version = "0.17.0"
+version = "0.18.0"
 description = "Add your description here"
 authors = [
     { name = "Alpha Zen", email = "" }
@@ -10,13 +10,14 @@ dependencies = [
     "python-dateutil>=2.9.0.post0",
     "pandas>=2.2.2",
     "python-binance>=1.0.19",
+    "rich>=13.8.1",
 ]
 readme = "README.md"
 requires-python = ">= 3.8"
 license = { text = "MIT" }
 
 [project.scripts]
-"dev" = "tradingtoolbox:main"
+"dev" = "tradingtoolbox:dev"
 
 [tool.rye.scripts]
 rye_script = {cmd = 'echo hello world'}

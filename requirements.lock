@@ -33,6 +33,10 @@ idna==3.7
     # via yarl
 lz4==4.3.3
     # via clickhouse-connect
+markdown-it-py==3.0.0
+    # via rich
+mdurl==0.1.2
+    # via markdown-it-py
 multidict==6.0.5
     # via aiohttp
     # via yarl
@@ -42,6 +46,8 @@ pandas==2.2.2
     # via tradingtoolbox
 pycryptodome==3.20.0
     # via python-binance
+pygments==2.18.0
+    # via rich
 python-binance==1.0.19
     # via tradingtoolbox
 python-dateutil==2.9.0.post0
@@ -56,6 +62,8 @@ regex==2024.5.15
     # via dateparser
 requests==2.32.3
     # via python-binance
+rich==13.8.1
+    # via tradingtoolbox
 six==1.16.0
     # via python-binance
     # via python-dateutil

@@ -1,11 +1,8 @@
-def main() -> int:
-    from tradingtoolbox.utils import time_manip
-    from tradingtoolbox.exchanges import binance, Timeframes
+from tradingtoolbox.utils.logger import logger, print
+from .dev import _dev
 
-    # print(time_manip.days_ago(3, to_timestamp=True))
-    # print(time_manip.months_ago(3))
+__all__ = ["logger", "print"]
 
-    # from tradingtoolbox.clickhouse import Clickhouse
-    # print("Hello")
-    # ch = Clickhouse()
-    return 0
+
+def dev():
+    _dev()
