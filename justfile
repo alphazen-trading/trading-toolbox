@@ -38,10 +38,12 @@ pub:
   rye build --clean
   rye build --all --out target 
   rye publish --yes
+  just pub-docs
 
 pub-docs:
   rye run mike deploy --push --update-aliases $(rye version) latest
-  rye run mkdocs gh-deploy --force
+  rye run mike set-default --push latest
+  # rye run mkdocs gh-deploy --force
 
 # ============================================= #
 # Code Section

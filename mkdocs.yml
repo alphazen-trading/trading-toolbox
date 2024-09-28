@@ -1,13 +1,35 @@
 site_name: Trading Toolbox
 site_url: https://tradingtoolbox.alphazen.xyz
 theme:
+  palette:
+    # Palette toggle for light mode
+    - scheme: default
+      toggle:
+        icon: material/brightness-7 
+        name: Switch to dark mode
+    # Palette toggle for dark mode
+    - scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
   name: material
   custom_dir: ./docs/overrides
   features:
     - navigation.instant
     - navigation.instant.progress
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.expand
+    - navigation.path
+    - navigation.prune 
+    - navigation.indexes 
     # To be allowed to edit the page on github
     - content.action.edit
+    # For search settings
+    - search.suggest
+    - search.highlight
+    - search.share
   icon:
     # For the github icon on top
     repo: fontawesome/brands/github
@@ -31,11 +53,33 @@ plugins:
       version_selector: true
       css_dir: css
       javascript_dir: js
+  # Plugins to auto-generate docstrings
+  - gen-files:
+      scripts:
+        - scripts/gen_ref_pages.py  
+  - literate-nav:
+      nav_file: SUMMARY.md
+  - section-index
+  - mkdocstrings:
+      enabled: true
+      default_handler: python
+      handlers:
+        python:
+          options:
+            show_source: true
 
 extra:
   version:
     provider: mike
     alias: true
+    default: stable 
+
+markdown_extensions:
+  - toc:
+      permalink: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences
 
 # The github links on top
 repo_url: https://github.com/alphazen-trading/trading-toolbox
@@ -44,3 +88,11 @@ repo_name: alphazen-trading/trading-toolbox
 
 # The Page link to edit this doc
 edit_uri: edit/master/docs/
+
+
+
+nav:
+# rest of the navigation...
+# defer to gen-files + literate-nav
+- API: reference/  
+# rest of the navigation...
