@@ -7,11 +7,26 @@ import time
 
 
 class OKXKlines:
-    def get_kline_file_name(self, instrument: str, tf: str):
+    """
+    A class that helps downloading klines from OKX.
+
+    Usage:
+        ```python
+        from tradingtoolbox.exchanges import OKXKlines
+
+
+        klines = OKXKlines()
+        df = klines.load_klines(
+            "PEPE-USDT-SWAP", "1m", days_ago=30
+        )
+        ```
+    """
+
+    def _get_kline_file_name(self, instrument: str, tf: str):
         return f"./data/kline_{instrument}_{tf}.parquet"
 
-    def find_kline_file(self, instrument: str, tf: str):
-        path = self.get_kline_file_name(instrument, tf)
+    def _find_kline_file(self, instrument: str, tf: str):
+        path = self._get_kline_file_name(instrument, tf)
 
         if not os.path.exists("./data"):
             os.mkdir("./data")
@@ -20,7 +35,7 @@ class OKXKlines:
             return df
         return None
 
-    def parse_klines(self, klines: NDArray) -> pd.DataFrame:
+    def _parse_klines(self, klines: NDArray) -> pd.DataFrame:
         values = []
         columns = [
             "date",
@@ -46,26 +61,35 @@ class OKXKlines:
     def load_klines(
         self, instrument: str, tf: str, days_ago: int = 1, end=datetime.now()
     ) -> pd.DataFrame:
-        df = self.find_kline_file(instrument, tf)
+        """
+        Load klines from the past X days.
+        OKX's api is limited in to a max of 100 items. This method, will loop until it finds the amount needed
+
+        Parameters:
+            instrument: The instrument to fetch
+            tf: The timeframe to fetch
+            days_ago: The number of days ago to look at
+            end: The end date
+        """
+        df = self._find_kline_file(instrument, tf)
 
         if df is None:
             df = self._fetch_lines(instrument, tf, None)
 
         start_date = end - pd.Timedelta(days=days_ago)
-        print(start_date)
-        while start_date.timestamp() < df["date"].min():
+        while start_date.timestamp() < df["date"].min():  # type: ignore
             new_df = self._fetch_lines(instrument, tf, df["date"].min())
             df = pd.concat([df, new_df])
             df["d"] = pd.to_datetime(df["date"], unit="ms")
-            name = self.get_kline_file_name(instrument, tf)
+            name = self._get_kline_file_name(instrument, tf)
             print(name)
-            df.to_parquet(self.get_kline_file_name(instrument, tf))
+            df.to_parquet(self._get_kline_file_name(instrument, tf))
             time.sleep(0.1)
             print(df)
 
         df = df.sort_values(by=["date"], ascending=True)
         df["date"] = pd.to_datetime(df["date"], unit="ms")
-        print(df)
+        return df
 
     def _fetch_lines(self, instrument: str, tf: str, before=None) -> pd.DataFrame:
         url = f"https://www.okx.com/api/v5/market/history-candles?instId={instrument}&bar={tf}&limit=100"
@@ -76,6 +100,6 @@ class OKXKlines:
             timeout=10,
         )
         if response.status_code == 200:
-            return self.parse_klines(response.json()["data"])
+            return self._parse_klines(response.json()["data"])
         else:
             return pd.DataFrame()

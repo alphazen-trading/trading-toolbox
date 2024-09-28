@@ -1,7 +1,3 @@
-"""
-General overview of how to use this
-"""
-
 from typing import Any
 from loguru import logger as _logger
 import traceback
@@ -67,7 +63,7 @@ class Logger:
     structured logs to a file for debugging purposes.
 
     Key Features:
-    --------------
+
     - **Rich Tracebacks**: Automatically installs Rich traceback for more readable
       error messages in the console, highlighting key information such as line numbers
       and functions.
@@ -80,9 +76,9 @@ class Logger:
 
     **Usage Example**
     ```python
-    from tradingtoolbox.utils import logger, Logger
+    from tradingtoolbox.utils.logger import logger, Logger
 
-    # Create a custom logger
+    # [Optional] Create a custom logger
     custom_logger = Logger(supressed_modules=["talib"], log_dir="./my_logs")
 
     try:
@@ -103,16 +99,19 @@ class Logger:
     - Log files are stored in the `log_dir` directory, defaulting to `./logs`.
     """
 
-    def __init__(self, suppressed_modules=SUPPRESSED_MODULES, log_dir="./logs"):
+    def __init__(
+        self,
+        suppressed_modules: list[str] = SUPPRESSED_MODULES,
+        log_dir: str = "./logs",
+    ):
         """
         Initializes the custom logger instance.
 
         Parameters:
-        -----------
-        suppressed_modules : list, optional
-            A list of modules to suppress from rich traceback (default is SUPPRESSED_MODULES).
-        log_dir : str, optional
-            The directory where log files will be saved (default is "./logs").
+            suppressed_modules:
+                A list of modules to suppress from rich traceback (default is SUPPRESSED_MODULES).
+            log_dir:
+                The directory where log files will be saved (default is "./logs").
         """
 
         self._create_logs_dir(log_dir)
@@ -178,16 +177,21 @@ class Logger:
         """
         self.logger.opt(depth=2).warning(pretty_repr(obj))
 
-    def print(self, obj):
+    def info(self, *obj):
         """
         Logs an informational message, replacing the standard print function. Uses the INFO level
         """
-        self.logger.opt(depth=2).info(pretty_repr(obj))
+        for item in obj:
+            self.logger.opt(depth=2).info(pretty_repr(item))
         # rprint(obj)
 
 
-logger = Logger()
 pprint = print
+
+logger = Logger()
+"""
+An instantiated logger that you can use directly
+"""
 
 
 def print(*msg: Any) -> None:
@@ -202,10 +206,12 @@ def print(*msg: Any) -> None:
         msg: The object to be logged. It can be of any type that the
             logger can handle, including strings, numbers, or custom objects.
 
-    **Notes**:
 
-    - This method provides more control and consistency by leveraging
-      the logging system, which is particularly useful in production
-      environments or when working with larger applications.
+    **Usage Example**
+    ```python
+    from tradingtoolbox.utils.logger import print
+
+    print("Hello world")
+    ```
     """
-    logger.print(" ".join(map(pretty_repr, msg)))
+    logger.info(*msg)

@@ -1,9 +1,11 @@
 """
-Module that contains a bunch of helper utils
+A bunch of util functions
 """
 
-from .time_manip import time_manip
-from .logger import print, logger, Logger
-from .resample import resample
+from .logger import logger, print, Logger
 
-__all__ = ["time_manip", "resample", "Logger", "logger", "print"]
+__all__ = [
+    "logger",
+    "Logger",
+    "print",
+]

@@ -1,5 +1,14 @@
-# Function to generate ClickHouse table schema from DataFrame
-def generate_table_schema(df, table_name):
+import pandas as pd
+
+
+def generate_table_schema(df: pd.DataFrame, table_name: str):
+    """
+    Generates the schema for a table from a pandas dataframe
+
+    Parameters:
+        df: The dataframe to generate the schema from
+        table_name: The name of the table to insert the df into
+    """
     schema = f"CREATE TABLE IF NOT EXISTS {table_name} ("
     for column in df.columns:
         dtype = df[column].dtype

@@ -1,4 +1,4 @@
-from .binance import Binance, Timeframes
+from .binance import BinanceKlines, Timeframes
 from .okx import OKXKlines
 
-__all__ = ["Binance", "Timeframes", "OKXKlines"]
+__all__ = ["BinanceKlines", "Timeframes", "OKXKlines"]

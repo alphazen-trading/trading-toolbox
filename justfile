@@ -43,8 +43,6 @@ pub:
 pub-docs:
   rye run mike deploy --update-aliases $(rye version) latest
   rye run mike set-default --push latest
-  rye run mike deploy --push --update-aliases $(rye version) latest
-  # rye run mkdocs gh-deploy --force
 
 # ============================================= #
 # Code Section
