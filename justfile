@@ -54,6 +54,18 @@ rs_dev:
   nodemon -w rs -e rs --exec maturin develop --skip-install -r --uv
 
 # ============================================= #
+# Docs
+# ============================================= #
+docs:
+  rye run mkdocs serve
+
+docs-build:
+  rye run mkdocs build
+
+deploy:
+  rye run mkdocs gh-deploy --force
+
+# ============================================= #
 # Custom Section
 # ============================================= #
 custom:

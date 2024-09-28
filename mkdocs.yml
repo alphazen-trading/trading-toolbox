@@ -1,0 +1,18 @@
+site_name: Trading Toolbox
+site_url: https://tradingtoolbox.alphazen.xyz
+theme:
+  name: material
+  features:
+    - navigation.instant
+    - navigation.instant.progress
+    - content.action.edit
+  icon:
+    repo: fontawesome/brands/github
+    edit: material/pencil 
+    view: material/eye
+
+repo_url: https://github.com/alphazen-trading/trading-toolbox
+repo_name: alphazen-trading/trading-toolbox
+
+
+edit_uri: edit/main/docs/

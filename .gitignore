@@ -20,3 +20,4 @@ docker/grafana_data/plugins/*
 docker/grafana_data/png/*
 .env
 target
+site
