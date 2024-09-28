@@ -37,6 +37,8 @@ pub:
   rye version -b minor
   rye build --clean
   rye build --all --out target 
+  git add .
+  git commit -m "build: automatic rye bump of project version"
   rye publish --yes
   just pub-docs
 
