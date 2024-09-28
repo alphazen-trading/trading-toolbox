@@ -2,17 +2,45 @@ site_name: Trading Toolbox
 site_url: https://tradingtoolbox.alphazen.xyz
 theme:
   name: material
+  custom_dir: ./docs/overrides
   features:
     - navigation.instant
     - navigation.instant.progress
+    # To be allowed to edit the page on github
     - content.action.edit
   icon:
+    # For the github icon on top
     repo: fontawesome/brands/github
+
+    # For the icon that edits the current page on github
     edit: material/pencil 
     view: material/eye
 
+plugins:
+  - git-revision-date-localized:
+      enable_creation_date: true
+      type: date
+  - git-authors
+  - search
+  - mike:
+      # These fields are all optional; the defaults are as below...
+      alias_type: symlink
+      redirect_template: null
+      deploy_prefix: ''
+      canonical_version: null
+      version_selector: true
+      css_dir: css
+      javascript_dir: js
+
+extra:
+  version:
+    provider: mike
+    alias: true
+
+# The github links on top
 repo_url: https://github.com/alphazen-trading/trading-toolbox
 repo_name: alphazen-trading/trading-toolbox
 
 
-edit_uri: edit/main/docs/
+# The Page link to edit this doc
+edit_uri: edit/master/docs/

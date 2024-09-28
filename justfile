@@ -39,6 +39,10 @@ pub:
   rye build --all --out target 
   rye publish --yes
 
+pub-docs:
+  rye run mike deploy --push --update-aliases $(rye version) latest
+  rye run mkdocs gh-deploy --force
+
 # ============================================= #
 # Code Section
 # ============================================= #
@@ -57,13 +61,11 @@ rs_dev:
 # Docs
 # ============================================= #
 docs:
-  rye run mkdocs serve
+  rye run mike serve
 
 docs-build:
   rye run mkdocs build
 
-deploy:
-  rye run mkdocs gh-deploy --force
 
 # ============================================= #
 # Custom Section

@@ -21,3 +21,4 @@ docker/grafana_data/png/*
 .env
 target
 site
+.cache
