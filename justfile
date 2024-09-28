@@ -46,7 +46,7 @@ pub:
 pub-docs:
   rye run mike deploy --update-aliases $(rye version) latest
   rye run mike set-default --push latest
-  git checkout gh-branch
+  git checkout gh-pages
   git push
   git checkout master
 
