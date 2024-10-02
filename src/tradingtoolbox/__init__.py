@@ -77,9 +77,3 @@ Example:
 
 
 """
-
-
-def dev():
-    from .dev import _dev
-
-    _dev()
