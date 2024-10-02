@@ -68,7 +68,7 @@ rs_dev:
 # Docs
 # ============================================= #
 docs:
-  rye run mike serve
+  nodemon --exec rye run mkdocs serve
 
 docs-build:
   rye run mkdocs build
