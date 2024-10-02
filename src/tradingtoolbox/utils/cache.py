@@ -28,7 +28,6 @@ class Cache(msgspec.Struct):
     cache = Cache(
         cache_path=f"./cache/markets_{ex.exchange_name}.json", method=ex.get_contracts
     )
-    cache.clean_cache()
     data = await cache.get_async()
     ```
     """
@@ -39,6 +38,7 @@ class Cache(msgspec.Struct):
     """A lambda method to run in case the file doesn't exist"""
     date_as_suffix: bool = True
     """If true, will append today's date to the cache file."""
+    _task: Optional[asyncio.Task] = None
 
     def __post_init__(self):
         # Custom initialization logic after the msgspec-generated init
@@ -67,6 +67,17 @@ class Cache(msgspec.Struct):
             with open(self.cache_path, "w") as f:
                 json.dump(data, f, indent=2)
 
+    async def wait_till_complete(self):
+        """
+        Waits for the task to complete.
+        Use this if you don't have any other async.io task to avoid the program ending before the method is ran
+        """
+        if self._task:
+            while True:
+                if self._task.done():
+                    break
+                await asyncio.sleep(1)  # Check every second
+
     # ====================== Public Methods ======================= #
     async def get_async(self, reload=True) -> dict:
         """
@@ -81,7 +92,7 @@ class Cache(msgspec.Struct):
         data = self._read_file()
         if data:
             if reload:
-                asyncio.create_task(self._reload_async())
+                self._task = asyncio.create_task(self._reload_async())
         else:
             await self._reload_async()
             data = self._read_file()
