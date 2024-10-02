@@ -80,6 +80,7 @@ jinja2==3.1.4
     # via mkdocs-material
     # via mkdocstrings
 loguru==0.7.2
+    # via tradingtoolbox
 lz4==4.3.3
     # via clickhouse-connect
 markdown==3.7
@@ -130,6 +131,8 @@ mkdocstrings==0.26.1
     # via mkdocstrings-python
 mkdocstrings-python==1.11.1
     # via mkdocstrings
+msgspec==0.18.6
+    # via tradingtoolbox
 multidict==6.0.5
     # via aiohttp
     # via yarl
@@ -140,6 +143,7 @@ numpy==2.0.1
     # via pandas
     # via pyarrow
 orjson==3.10.6
+    # via tradingtoolbox
 packaging==24.1
     # via commitizen
     # via mkdocs

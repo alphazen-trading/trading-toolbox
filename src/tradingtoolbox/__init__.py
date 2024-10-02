@@ -8,6 +8,7 @@ Attributes:
     clickhouse (module): Functions for database-related operations.
     exchanges (module): Functions to download and manage OHLCV data.
     utils (module): Utility functions for time manipulation, logging, and other tasks.
+    cache (module): Utility that automatically takes care of caching data to local disk
 
 Example:
     Download OHLCV futures data from Binance
