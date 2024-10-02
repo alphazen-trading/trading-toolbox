@@ -18,6 +18,19 @@ class Cache(msgspec.Struct):
     Methods:
         get_async(reload=True): Asynchronously retrieves data from the cache. If the cache file doesn't exist, it will fetch data using the provided method and store it in the cache.
         clean_cache(): Deletes the cache file from disk.
+
+    Usage:
+    ```py
+    async def my_function():
+        await asyncio.sleep(5)
+        return []
+
+    cache = Cache(
+        cache_path=f"./cache/markets_{ex.exchange_name}.json", method=ex.get_contracts
+    )
+    cache.clean_cache()
+    data = await cache.get_async()
+    ```
     """
 
     cache_path: str
