@@ -1,6 +1,6 @@
 [project]
 name = "tradingtoolbox"
-version = "0.39.0"
+version = "0.40.0"
 description = "Add your description here"
 authors = [
     { name = "Alpha Zen", email = "" }
@@ -21,12 +21,6 @@ dependencies = [
 readme = "README.md"
 requires-python = ">= 3.8"
 license = { text = "MIT" }
-
-[project.scripts]
-"dev" = "tradingtoolbox:dev"
-
-[tool.rye.scripts]
-rye_script = {cmd = 'echo hello world'}
 
 [build-system]
 requires = ["hatchling"]
