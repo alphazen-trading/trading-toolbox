@@ -78,8 +78,6 @@ Example:
 
 """
 
-pritn(4)
-
 
 def dev():
     from .dev import _dev
