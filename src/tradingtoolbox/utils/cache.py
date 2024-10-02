@@ -29,6 +29,9 @@ class Cache(msgspec.Struct):
         cache_path=f"./cache/markets_{ex.exchange_name}.json", method=ex.get_contracts
     )
     data = await cache.get_async()
+
+    # Use this if you don't have any other async.io task, otherwise the program will end before `my_function` runs
+    await cache.wait_till_complete()
     ```
     """
 
