@@ -18,6 +18,7 @@ dependencies = [
     "orjson>=3.10.6",
     "msgspec>=0.18.6",
     "ccxt>=4.4.12",
+    "arrow>=1.3.0",
 ]
 readme = "README.md"
 requires-python = ">= 3.8"
@@ -55,6 +56,13 @@ allow-direct-references = true
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/tradingtoolbox"]
+
+[tool.maturin]
+profile = "release"
+python-source = "src"
+module-name = 'tradingtoolbox.rs'
+manifest-path = "rs/Cargo.toml"
+features = ["pyo3/extension-module"]
 
 [tool.pyright]
 venvPath = "."

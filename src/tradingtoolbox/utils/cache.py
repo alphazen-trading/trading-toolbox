@@ -1,9 +1,18 @@
 import os
 import json
+from msgspec.json import decode
 import msgspec
 import asyncio
+import pandas as pd
 from datetime import date
 from typing import Callable, Optional
+from enum import Enum
+
+
+class FileFormat(Enum):
+    JSON = "json"
+    PARQUET = "parquet"
+    NONE = "none"
 
 
 class Cache(msgspec.Struct):
@@ -35,12 +44,20 @@ class Cache(msgspec.Struct):
     ```
     """
 
+    # TODO
+    # 1. Provide custom method to load the cache instead of assuming it's json
+    # 2. allow to pass parameters to the method
+
     cache_path: str
     """Where you want the file to be stored"""
     method: Optional[Callable] = None
     """A lambda method to run in case the file doesn't exist"""
-    date_as_suffix: bool = True
+    date_as_suffix: bool = False
     """If true, will append today's date to the cache file."""
+    file_format: FileFormat = FileFormat.JSON
+    """Format of the file to read."""
+    dump_format: FileFormat = FileFormat.JSON
+    """Format of the file to dump to. It might be None if your method already dumps the file."""
     _task: Optional[asyncio.Task] = None
 
     def __post_init__(self):
@@ -52,10 +69,13 @@ class Cache(msgspec.Struct):
         self._ensure_path_exists()
 
     # ====================== Private Methods ======================= #
-    def _read_file(self) -> Optional[dict]:
+    def _read_file(self) -> Optional[dict | pd.DataFrame]:
         if os.path.exists(self.cache_path):
-            with open(self.cache_path, "r") as f:
-                return json.load(f)
+            if self.file_format == FileFormat.JSON:
+                with open(self.cache_path, "r") as f:
+                    return decode(f.read())
+            elif self.file_format == FileFormat.PARQUET:
+                return pd.read_parquet(self.cache_path)
         return None
 
     def _ensure_path_exists(self):
@@ -63,12 +83,17 @@ class Cache(msgspec.Struct):
         if not os.path.exists(directory_path):
             os.makedirs(directory_path, exist_ok=True)
 
-    async def _reload_async(self):
+    async def _reload_async(self, **method_kwargs):
         if self.method:
-            data = await self.method()
+            data = await self.method(**method_kwargs)
 
-            with open(self.cache_path, "w") as f:
-                json.dump(data, f, indent=2)
+            if self.dump_format == FileFormat.JSON:
+                with open(self.cache_path, "w") as f:
+                    json.dump(data, f, indent=2)
+            elif self.dump_format == FileFormat.PARQUET:
+                data.to_parquet(self.cache_path, index=False)
+            elif self.dump_format == FileFormat.PARQUET:
+                pass
 
     async def wait_till_complete(self):
         """
@@ -82,22 +107,23 @@ class Cache(msgspec.Struct):
                 await asyncio.sleep(1)  # Check every second
 
     # ====================== Public Methods ======================= #
-    async def get_async(self, reload=True) -> dict:
+    async def get_async(self, reload=True, **method_kwargs) -> dict:
         """
         Gets the data from the cache. If it doesn't exist, it will reload it.
 
         Args:
             reload (bool, optional): Whether to reload the data. Defaults to True.
+            **method_kwargs: Keyword arguments to pass to the method.
 
         Returns:
             dict: The data from the cache.
         """
         data = self._read_file()
-        if data:
+        if data is not None:
             if reload:
-                self._task = asyncio.create_task(self._reload_async())
+                self._task = asyncio.create_task(self._reload_async(**method_kwargs))
         else:
-            await self._reload_async()
+            await self._reload_async(**method_kwargs)
             data = self._read_file()
         return data  # type: ignore
 

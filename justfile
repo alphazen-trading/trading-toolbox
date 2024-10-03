@@ -60,9 +60,14 @@ dev:
   nodemon -e py --exec rye run dev
 
 rs_dev:
-  #!/usr/bin/env bash
-  cd rs
-  nodemon -w rs -e rs --exec maturin develop --skip-install -r --uv
+  nodemon -e rs --exec just _rs_dev
+
+_rs_dev:
+  maturin develop --skip-install -r
+  just _rs_dev_pyi
+
+_rs_dev_pyi:
+  rye run python scripts/scanner.py tradingtoolbox.rs ./src/tradingtoolbox
 
 # ============================================= #
 # Docs
@@ -79,3 +84,15 @@ docs-build:
 # ============================================= #
 custom:
   echo "Do whatever you want here"
+
+
+zellij:
+  #!/usr/bin/env bash
+  # Check if a Zellij session named "toolbox" exists
+  if zellij ls | grep -q "toolbox"; then
+      zellij kill-session toolbox
+      zellij delete-session toolbox
+  fi
+
+  zellij -s toolbox --layout layout.kdl
+

@@ -52,9 +52,14 @@ async def main():
     contracts = ex.find_contracts(symbol_name="PEPE/USDT:USDT", contract_type="swap")
     # print(symbols)
     # print(len(symbols))
+    # df = pd.read_parquet("./ohlcv_data.parquet")
+    # print(df)
+    # return
     for contract in contracts:
-        candles = await ex.fetch_historical_ohlcv(contract, timeframe="1m", pages=1)
-        print(candles)
+        candles = await ex.fetch_historical_ohlcv(
+            contract, timeframe="1m", pages=1, reload=False
+        )
+        # print(candles)
 
     await ex.close()
 

@@ -23,3 +23,5 @@ target
 site
 .cache
 cache/markets_20241003.json
+cache
+data
