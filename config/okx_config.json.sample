@@ -1,0 +1,10 @@
+{
+  "apiKey": ""
+  "secret": ""
+  "password": ""
+  "enableRateLimit": true,
+  "newUpdates": true,
+  "options": {
+    "defaultType": "swap"
+  }
+}

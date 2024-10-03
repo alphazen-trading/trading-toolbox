@@ -10,7 +10,10 @@
 #   universal: false
 
 -e file:.
+aiodns==3.2.0
+    # via ccxt
 aiohttp==3.9.5
+    # via ccxt
     # via python-binance
 aiosignal==1.3.1
     # via aiohttp
@@ -23,9 +26,15 @@ attrs==23.2.0
 babel==2.16.0
     # via mkdocs-git-revision-date-localized-plugin
     # via mkdocs-material
+ccxt==4.4.12
+    # via tradingtoolbox
 certifi==2024.7.4
+    # via ccxt
     # via clickhouse-connect
     # via requests
+cffi==1.17.1
+    # via cryptography
+    # via pycares
 cfgv==3.4.0
     # via pre-commit
 charset-normalizer==3.3.2
@@ -41,6 +50,8 @@ colorama==0.4.6
     # via griffe
     # via mkdocs-material
 commitizen==3.27.0
+cryptography==43.0.1
+    # via ccxt
 dateparser==1.2.0
     # via python-binance
 decli==0.6.2
@@ -166,6 +177,10 @@ prompt-toolkit==3.0.36
     # via questionary
 pyarrow==17.0.0
     # via tradingtoolbox
+pycares==4.4.0
+    # via aiodns
+pycparser==2.22
+    # via cffi
 pycryptodome==3.20.0
     # via python-binance
 pydantic==2.9.2
@@ -211,11 +226,14 @@ regex==2024.5.15
     # via dateparser
     # via mkdocs-material
 requests==2.32.3
+    # via ccxt
     # via mkdocs-git-committers-plugin-2
     # via mkdocs-material
     # via python-binance
 rich==13.8.1
     # via tradingtoolbox
+setuptools==75.1.0
+    # via ccxt
 six==1.16.0
     # via python-binance
     # via python-dateutil
@@ -226,6 +244,7 @@ termcolor==2.4.0
 tomlkit==0.13.0
     # via commitizen
 typing-extensions==4.12.2
+    # via ccxt
     # via pydantic
     # via pydantic-core
 tzdata==2024.1
@@ -251,6 +270,7 @@ websockets==12.0
     # via python-binance
 yarl==1.9.4
     # via aiohttp
+    # via ccxt
 zipp==3.19.2
     # via importlib-metadata
 zstandard==0.23.0

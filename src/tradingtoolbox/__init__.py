@@ -78,3 +78,9 @@ Example:
 
 
 """
+
+
+def dev():
+    from tradingtoolbox.testing import dev as _dev
+
+    _dev()
