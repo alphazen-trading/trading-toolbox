@@ -78,3 +78,6 @@ def dev():
 
     asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
     asyncio.run(_dev())
+
+
+dev()

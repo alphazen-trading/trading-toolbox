@@ -24,9 +24,11 @@ readme = "README.md"
 requires-python = ">= 3.8"
 license = { text = "MIT" }
 
-[project.scripts]
-"dev" = "tradingtoolbox:dev"
+# [project.scripts]
+# "dev" = "tradingtoolbox:dev"
 
+[tool.rye.scripts]
+dev = {cmd = 'rye run python testing/dev_testing.py'}
 
 [build-system]
 requires = ["hatchling"]
