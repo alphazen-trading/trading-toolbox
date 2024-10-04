@@ -1,10 +1,9 @@
 from tradingtoolbox.utils import print
 from tradingtoolbox.clickhouse import ClickhouseSync, ClickhouseAsync
-from tradingtoolbox.exchanges import BinanceKlines, Timeframes
+
 from tradingtoolbox.utils.time_manip import time_manip
+
 import pandas as pd
-import asyncio
-from tradingtoolbox.exchanges import OKXKlines
 import asyncio
 import uvloop
 import msgspec
@@ -12,6 +11,8 @@ import ccxt
 import ccxt.pro
 from tradingtoolbox.utils import print
 from tradingtoolbox.exchanges import Exchange, ExchangeConfig
+from tradingtoolbox.utils import Cache
+# from tradingtoolbox.exchanges.binance import BinanceKlines, Timeframes
 
 
 # def _dev():
@@ -44,23 +45,22 @@ from tradingtoolbox.exchanges import Exchange, ExchangeConfig
 
 
 async def main():
-    print("Hello from historical-data!")
-    # print(Exchange.available_exchanges())
-    config = ExchangeConfig.create(config_file_path="./config/okx_config.json")
-    ex = Exchange.create(exchange_name="okx", config=config)
+    # config = ExchangeConfig.create(config_file_path="./config/okx_config.json")
+    # ex = Exchange.create(exchange_name="okx", config=config)
+
+    config = ExchangeConfig.create(config_file_path="./config/bybit_config.json")
+    ex = Exchange.create(exchange_name="bybit", config=config)
+
     await ex.load_contracts(reload=False)
+
     contracts = ex.find_contracts(symbol_name="PEPE/USDT:USDT", contract_type="swap")
-    # print(symbols)
-    # print(len(symbols))
-    # df = pd.read_parquet("./ohlcv_data.parquet")
-    # print(df)
-    # return
     for contract in contracts:
         candles = await ex.fetch_historical_ohlcv(
-            contract, timeframe="1m", pages=1, reload=False
+            contract, timeframe="1m", pages=1000, reload=False
         )
-        # print(candles)
+        print(candles)
 
+    await Cache.wait_till_all_tasks_complete()
     await ex.close()
 
 
@@ -71,5 +71,7 @@ async def _dev():
 
 
 def dev():
+    print("In dev")
+
     asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
     asyncio.run(_dev())

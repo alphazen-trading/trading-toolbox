@@ -106,6 +106,21 @@ class Cache(msgspec.Struct):
                     break
                 await asyncio.sleep(1)  # Check every second
 
+    @staticmethod
+    async def wait_till_all_tasks_complete():
+        """
+        Waits for all tasks to complete.
+        Use this if you don't have any other async.io task to avoid the program ending before the method is ran
+        """
+        while True:
+            pending_tasks = []
+            for task in asyncio.all_tasks():
+                if not task.done():
+                    pending_tasks.append(task)
+            if len(pending_tasks) == 2:
+                break
+            await asyncio.sleep(1)
+
     # ====================== Public Methods ======================= #
     async def get_async(self, reload=True, **method_kwargs) -> dict:
         """

@@ -1,4 +1,3 @@
-import time
 import ccxt
 import ccxt.pro
 import msgspec
@@ -34,11 +33,11 @@ class Exchange(msgspec.Struct):
 
     async def load_contracts(self, reload=True) -> dict:
         cache = Cache(
-            cache_path="./cache/markets.json", method=self.exchange.load_markets
+            cache_path=f"./cache/{self.exchange_name}_markets.json",
+            method=self.exchange.load_markets,
         )
         self.contracts = {}
         data = await cache.get_async(reload=reload)
-        await cache.wait_till_complete()
 
         for key in data:
             curr = Contract(**data[key])
@@ -73,7 +72,6 @@ class Exchange(msgspec.Struct):
         data = await cache.get_async(
             reload=reload, contract=contract, timeframe=timeframe, pages=pages
         )
-        await cache.wait_till_complete()
         return data
 
     async def _fetch_historical_ohlcv(
