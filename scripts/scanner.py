@@ -95,13 +95,13 @@ class Scanner:
             self.classes.setdefault(module_root, list())
             self.classes[module_root].append(class_definition)
 
-    def write_pyis(self, pyi_root):
+    def write_pyis(self, file_location):
         for module, classes in reversed(self.classes.items()):
             print(f"Writing pyi for {module}...")
             path = module.replace(".", "/")
             path = os.path.basename(path)
-            path = f"{pyi_root}/{path}.pyi"
-            os.makedirs(os.path.dirname(f"{pyi_root}"), exist_ok=True)
+            path = f"{file_location}/{path}.pyi"
+            os.makedirs(os.path.dirname(f"{file_location}"), exist_ok=True)
             with open(path, "w") as file:
                 file.write("from typing import Final\n\n")
                 for (
@@ -221,14 +221,14 @@ def main():
             f"Module {args.module} has no __file__ attribute (might be a built-in or extension module)."
         )
         return
-    module_dir = os.path.dirname(module_file)
 
     # Instantiate the scanner and scan the module
     scanner = Scanner()
     scanner.scan_module("", sys.modules[args.module])
 
     # Write the .pyi file in the same directory as the module
-    scanner.write_pyis(module_dir)
+    # module_dir = os.path.dirname(module_file)
+    scanner.write_pyis(args.module_dir)
 
 
 if __name__ == "__main__":
