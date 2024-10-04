@@ -1,6 +1,19 @@
 from typing import Final
 
 class Bars:
+    """
+Represents a collection of OHLCV (Open, High, Low, Close, Volume) data
+for traditional and Heikin-Ashi bars.
+
+The `Bars` struct contains two vectors: one for standard OHLCV data and
+another for Heikin-Ashi bar data. This struct provides an organized way
+to manage and manipulate historical price data, facilitating
+various analytical and trading strategies.
+
+Attributes:
+    ohlcvs (Vec<OHLCV>): A vector containing the standard OHLCV data.
+    ha_bars (Vec<OHLCV>): A vector containing Heikin-Ashi OHLCV data.
+    """
     @property
     def ha_bars(self): ...
     @property

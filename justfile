@@ -67,13 +67,13 @@ _rs_dev:
   just _rs_dev_pyi
 
 _rs_dev_pyi:
-  rye run python scripts/scanner.py tradingtoolbox.rs ./src/tradingtoolbox
+  rye run python scripts/scanner.py tradingtoolbox.rs ./src/tradingtoolbox/rs/
 
 # ============================================= #
 # Docs
 # ============================================= #
 docs:
-  nodemon --exec rye run mkdocs serve
+  nodemon -e *.py --exec rye run mkdocs serve
 
 docs-build:
   rye run mkdocs build

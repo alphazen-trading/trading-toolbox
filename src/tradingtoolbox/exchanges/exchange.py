@@ -59,7 +59,26 @@ class Exchange(msgspec.Struct):
 
     async def fetch_historical_ohlcv(
         self, contract: Contract, timeframe="1d", pages=3, reload=False
-    ):
+    ) -> Bars:
+        """
+        Fetches historical OHLCV (Open, High, Low, Close, Volume) data for a specified contract.
+
+        This asynchronous method retrieves the specified number of historical candle data pages
+        for a given contract and timeframe. It can be used for various candle manipulation operations.
+
+        Attributes:
+            contract (Contract): The contract for which historical data is being fetched.
+            timeframe (str): The time interval for the OHLCV data (default is "1d").
+            pages (int): The number of pages of data to fetch (default is 3).
+            reload (bool): Flag indicating whether to reload data if it exists (default is False).
+
+        Returns:
+            Bars: An instance of Bars containing the historical OHLCV data.
+
+        Examples:
+            >>> bars = await fetch_historical_ohlcv(contract, "1h", pages=5)
+            >>> print(bars)
+        """
         file_name = (
             f"./data/{self.exchange_name}_{contract.id}_{timeframe}_ohlcv.parquet"
         )
@@ -72,7 +91,22 @@ class Exchange(msgspec.Struct):
         data = await cache.get_async(
             reload=reload, contract=contract, timeframe=timeframe, pages=pages
         )
-        return data
+
+        bars = Bars()
+        for i in range(len(data)):
+            candle = data.iloc[i]
+            bar = OHLCV(
+                contract.symbol,
+                candle.timestamp_ms,
+                candle.open,
+                candle.high,
+                candle.low,
+                candle.close,
+                candle.volume,
+            )
+            bars.add_ohlcv(bar)
+
+        return bars
 
     async def _fetch_historical_ohlcv(
         self, contract: Contract, timeframe="1d", pages=3

@@ -122,7 +122,7 @@ class Cache(msgspec.Struct):
             await asyncio.sleep(1)
 
     # ====================== Public Methods ======================= #
-    async def get_async(self, reload=True, **method_kwargs) -> dict:
+    async def get_async(self, reload=True, **method_kwargs):
         """
         Gets the data from the cache. If it doesn't exist, it will reload it.
 

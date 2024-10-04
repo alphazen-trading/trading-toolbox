@@ -56,9 +56,11 @@ async def main():
     contracts = ex.find_contracts(symbol_name="PEPE/USDT:USDT", contract_type="swap")
     for contract in contracts:
         candles = await ex.fetch_historical_ohlcv(
-            contract, timeframe="1m", pages=1000, reload=False
+            contract, timeframe="1m", pages=1, reload=False
         )
         print(candles)
+        ohlcv = candles.ohlcvs
+        print(ohlcv[0].open)
         print(type(candles))
 
     await Cache.wait_till_all_tasks_complete()
