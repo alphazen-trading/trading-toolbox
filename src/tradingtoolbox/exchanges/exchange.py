@@ -76,7 +76,7 @@ class Exchange(msgspec.Struct):
 
     async def _fetch_historical_ohlcv(
         self, contract: Contract, timeframe="1d", pages=3
-    ):
+    ) -> Bars:
         file_name = (
             f"./data/{self.exchange_name}_{contract.id}_{timeframe}_ohlcv.parquet"
         )

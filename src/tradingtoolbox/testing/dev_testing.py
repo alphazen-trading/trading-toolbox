@@ -59,6 +59,7 @@ async def main():
             contract, timeframe="1m", pages=1000, reload=False
         )
         print(candles)
+        print(candles[0])
 
     await Cache.wait_till_all_tasks_complete()
     await ex.close()
