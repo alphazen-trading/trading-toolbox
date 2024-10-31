@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-from datetime import datetime, timedelta
+from datetime import UTC, datetime, timedelta
 from dateutil.relativedelta import *
 
 
@@ -82,6 +82,20 @@ class TimeManip:
     # ========================================================================== #
     #                             TIME AGO                                       #
     # ========================================================================== #
+    def minutes_ago(self, minutes=0, to_timestamp=False):
+        """
+        Return X hours ago
+
+        Parameters:
+            hours: The number of hours ago you want to return
+            to_timestamp: weather to return a timestamp or not
+        """
+        today = datetime.now(UTC)
+        date = today - timedelta(minutes=minutes)
+        if to_timestamp:
+            return date.timestamp()
+        return date
+
     def hours_ago(self, hours=0, to_timestamp=False):
         """
         Return X hours ago
@@ -90,7 +104,7 @@ class TimeManip:
             hours: The number of hours ago you want to return
             to_timestamp: weather to return a timestamp or not
         """
-        today = datetime.now()
+        today = datetime.now(UTC)
         date = today - timedelta(hours=hours)
         if to_timestamp:
             return date.timestamp()

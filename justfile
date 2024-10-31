@@ -57,7 +57,7 @@ pre-commit-test:
   rye run pre-commit run
 
 dev:
-  nodemon -e py --exec rye run dev
+  nodemon -e py --exec rye run pytest ./tests/test_exchange.py::test_trades --capture=no
 
 rs_dev:
   nodemon -e rs --exec just _rs_dev

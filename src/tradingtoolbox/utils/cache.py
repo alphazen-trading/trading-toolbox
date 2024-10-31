@@ -117,7 +117,7 @@ class Cache(msgspec.Struct):
             for task in asyncio.all_tasks():
                 if not task.done():
                     pending_tasks.append(task)
-            if len(pending_tasks) == 2:
+            if len(pending_tasks) == 1:
                 break
             await asyncio.sleep(1)
 

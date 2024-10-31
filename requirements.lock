@@ -46,6 +46,8 @@ frozenlist==1.4.1
 idna==3.7
     # via requests
     # via yarl
+iniconfig==2.0.0
+    # via pytest
 loguru==0.7.2
     # via tradingtoolbox
 lz4==4.3.3
@@ -64,8 +66,12 @@ numpy==2.0.1
     # via pyarrow
 orjson==3.10.7
     # via tradingtoolbox
+packaging==24.1
+    # via pytest
 pandas==2.2.2
     # via tradingtoolbox
+pluggy==1.5.0
+    # via pytest
 pyarrow==17.0.0
     # via tradingtoolbox
 pycares==4.4.0
@@ -80,6 +86,10 @@ pydantic-core==2.23.4
     # via pydantic
 pygments==2.18.0
     # via rich
+pytest==8.3.3
+    # via pytest-asyncio
+pytest-asyncio==0.24.0
+    # via tradingtoolbox
 python-binance==1.0.19
     # via tradingtoolbox
 python-dateutil==2.9.0.post0

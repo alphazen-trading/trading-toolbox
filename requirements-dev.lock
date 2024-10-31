@@ -199,6 +199,9 @@ pyparsing==3.1.4
     # via mike
 pyright==1.1.371
 pytest==8.2.2
+    # via pytest-asyncio
+pytest-asyncio==0.24.0
+    # via tradingtoolbox
 python-binance==1.0.19
     # via tradingtoolbox
 python-dateutil==2.9.0.post0
