@@ -57,7 +57,7 @@ class ClickhouseAsync(BaseModel):
 
         return self
 
-    async def insert_df(self, df: pd.DataFrame, table_name: str, drop: bool = False):
+    async def insert_df(self, df: pd.DataFrame, table_name: str, drop: bool = True):
         """
         Parameters:
             df: The dataframe to insert

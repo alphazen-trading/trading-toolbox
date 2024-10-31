@@ -57,7 +57,7 @@ class ClickhouseSync(BaseModel):
 
         return self
 
-    def insert_df(self, df: pd.DataFrame, table_name: str, drop=False):
+    def insert_df(self, df: pd.DataFrame, table_name: str, drop=True):
         """
         Parameters:
             df: The dataframe to insert
