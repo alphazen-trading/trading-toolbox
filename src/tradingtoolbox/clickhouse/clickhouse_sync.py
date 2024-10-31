@@ -45,6 +45,7 @@ class ClickhouseSync(BaseModel):
     @classmethod
     def create(cls, **kwargs):
         base = BaseCH(**kwargs)
+        kwargs = {}
         kwargs["client"] = clickhouse_connect.get_client(
             host=base.host,
             port=base.port,

@@ -45,6 +45,7 @@ class ClickhouseAsync(BaseModel):
     @classmethod
     async def create(cls, **kwargs):
         base = BaseCH(**kwargs)
+        kwargs = {}
         kwargs["async_client"] = await clickhouse_connect.get_async_client(
             host=base.host,
             port=base.port,
