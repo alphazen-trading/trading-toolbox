@@ -1,0 +1,8 @@
+.doc-symbol-method::after {
+  content: "func" !important;
+}
+.doc-symbol-function::after {
+  content: "func" !important;
+}
+
+
