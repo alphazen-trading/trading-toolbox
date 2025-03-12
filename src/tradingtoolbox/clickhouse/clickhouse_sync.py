@@ -64,6 +64,9 @@ class ClickhouseSync(BaseModel):
             table_name: The name of the table to insert into
             drop: Whether to drop the table if it already exists
         """
+        if len(df) == 0:
+            return
+
         if drop:
             self.drop_table(table_name)
         schema = generate_table_schema(df, table_name)
