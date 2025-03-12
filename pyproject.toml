@@ -1,6 +1,6 @@
 [project]
 name = "tradingtoolbox"
-version = "0.47.0"
+version = "0.48.0"
 description = "Add your description here"
 authors = [
     { name = "Alpha Zen", email = "" }
@@ -22,7 +22,7 @@ dependencies = [
     "pytest-asyncio>=0.24.0",
 ]
 readme = "README.md"
-requires-python = ">= 3.8"
+requires-python = ">= 3.9"
 license = { text = "MIT" }
 
 # [project.scripts]
