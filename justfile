@@ -40,7 +40,7 @@ pub:
   git add .
   git commit -m "build: automatic rye bump of project version"
   git push
-  rye publish --yes
+  uv publish 
   just pub-docs
 
 pub-docs:
