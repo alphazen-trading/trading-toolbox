@@ -10,8 +10,14 @@ from rich.traceback import Traceback
 from rich.console import Console
 from rich.logging import RichHandler
 from rich.pretty import pretty_repr
+from rich.style import Style
+from rich.theme import Theme
 
-console = Console()
+console = Console(theme=Theme({
+    "logging.level.warning": "yellow",
+    "logging.level.error": "red bold",
+    "logging.level.info": "blue",
+}))
 
 
 def patching(record):
@@ -120,32 +126,23 @@ class Logger:
         rich.traceback.install(
             show_locals=False,
             suppress=[__import__(name) for name in suppressed_modules],
+            console=console,
         )
 
         config = {
             "handlers": [
                 {
                     "sink": RichHandler(
-                        show_level=False,
+                        show_level=True,
                         show_time=True,
                         rich_tracebacks=True,
                         markup=True,
                         omit_repeated_times=False,
+                        console=console,
+                        log_time_format="[%X]",
                     ),
-                    # "sink": sys.stdout,
-                    # This will force us to only use the rich handler on normal levels
-                    "filter": lambda record: record["level"].name == "INFO",
                     "format": "{message}",
                 },
-                # {
-                #     "sink": sys.stdout,
-                #     "colorize": True,
-                #     "backtrace": True,
-                #     "diagnose": True,
-                #     "enqueue": False,
-                #     "format": "<cyan>❯ {module}:{function} ({line})</cyan> | <green>{time:YYYY-MM-DD at HH:mm:ss.sss}</green>",
-                #     "filter": lambda record: record["level"].name == "INFO",
-                # },
                 {
                     "sink": "./logs/logs.log",
                     "level": "DEBUG",
@@ -191,12 +188,12 @@ class Logger:
     def info(self, *obj):
         """
         Logs informational messages with pretty-printing for any object types. Uses the INFO level
-        
+
         Args:
             *obj: Variable number of objects to log (can be any type including tuple)
         """
         for item in obj:
-            self.logger.opt(depth=2).info(pretty_repr(item))
+            self.logger.opt(depth=1).info(pretty_repr(item))
 
 
 pprint = print
