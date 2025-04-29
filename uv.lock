@@ -1702,7 +1702,7 @@ wheels = [
 
 [[package]]
 name = "tradingtoolbox"
-version = "0.47.0"
+version = "0.52.0"
 source = { editable = "." }
 dependencies = [
     { name = "arrow" },

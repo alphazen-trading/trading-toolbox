@@ -163,27 +163,41 @@ class Logger:
     def _create_logs_dir(self, directory="./logs"):
         os.makedirs(directory, exist_ok=True)
 
-    def error(self):
+    def error(self, *obj):
         """
         Logs the most recent traceback error in a readable format, useful for. Uses the ERROR level
+        If objects are provided, they will be pretty-printed along with the traceback.
+
+        Args:
+            *obj: Variable number of objects to print along with the traceback
         """
         console.print(Traceback())
         recent_traceback = traceback.format_exc(limit=10)
         self.logger.error(recent_traceback)
+        if obj:
+            for item in obj:
+                self.logger.opt(depth=2).error(pretty_repr(item))
 
-    def warning(self, obj):
+    def warning(self, *obj):
         """
-        Logs a warning message with the option to pretty-print an object. Uses the WARNING level
+        Logs warning messages with pretty-printing for any object types. Uses the WARNING level
+
+        Args:
+            *obj: Variable number of objects to log (can be any type including tuple)
         """
-        self.logger.opt(depth=2).warning(pretty_repr(obj))
+        for item in obj:
+            self.logger.opt(depth=2).warning(pretty_repr(item))
 
     def info(self, *obj):
         """
-        Logs an informational message, replacing the standard print function. Uses the INFO level
+        Logs informational messages with pretty-printing for any object types. Uses the INFO level
+        
+        Args:
+            *obj: Variable number of objects to log (can be any type including tuple)
         """
         for item in obj:
             self.logger.opt(depth=2).info(pretty_repr(item))
-        # rprint(obj)
+            rprint(item)
 
 
 pprint = print
