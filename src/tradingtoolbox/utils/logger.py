@@ -186,7 +186,8 @@ class Logger:
             *obj: Variable number of objects to log (can be any type including tuple)
         """
         for item in obj:
-            self.logger.opt(depth=2).warning(pretty_repr(item))
+            self.logger.opt(depth=1).warning(pretty_repr(item))
+            rprint(item)
 
     def info(self, *obj):
         """
