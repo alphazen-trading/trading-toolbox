@@ -172,7 +172,7 @@ class Logger:
         self.logger.error(recent_traceback)
         if obj:
             for item in obj:
-                self.logger.opt(depth=2).error(pretty_repr(item))
+                self.logger.opt(depth=1).error(pretty_repr(item))
 
     def warning(self, *obj):
         """
