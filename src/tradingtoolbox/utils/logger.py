@@ -168,7 +168,6 @@ class Logger:
         Args:
             *obj: Variable number of objects to print along with the traceback
         """
-        console.print(Traceback())
         recent_traceback = traceback.format_exc(limit=10)
         self.logger.error(recent_traceback)
         if obj:
