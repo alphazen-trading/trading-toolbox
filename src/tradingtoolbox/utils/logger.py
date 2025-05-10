@@ -17,6 +17,7 @@ console = Console(theme=Theme({
     "logging.level.warning": "yellow",
     "logging.level.error": "red bold",
     "logging.level.info": "blue",
+    "logging.level.debug": "green",
 }))
 
 
@@ -109,6 +110,7 @@ class Logger:
         self,
         suppressed_modules: list[str] = SUPPRESSED_MODULES,
         log_dir: str = "./logs",
+        log_rotation: str = "5 MB",
     ):
         """
         Initializes the custom logger instance.
@@ -118,6 +120,8 @@ class Logger:
                 A list of modules to suppress from rich traceback (default is SUPPRESSED_MODULES).
             log_dir:
                 The directory where log files will be saved (default is "./logs").
+            log_rotation:
+                The rotation size for log files (default is "5 MB").
         """
 
         self._create_logs_dir(log_dir)
@@ -150,6 +154,7 @@ class Logger:
                     "serialize": True,
                     "enqueue": True,
                     "colorize": True,
+                    "rotation": log_rotation,
                     "format": "<light-cyan>❯ {module}:{function} ({line})</light-cyan> | <light-black>{time:YYYY-MM-DD at HH:mm:ss.sss}</light-black>\n{message}",
                 },
             ],
