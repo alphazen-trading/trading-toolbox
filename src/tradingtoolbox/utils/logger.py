@@ -142,6 +142,7 @@ class Logger:
                         log_time_format="[%X]",
                     ),
                     "format": "{message}",
+                    "filter": lambda record: record["level"].no >= 20,  # 20 is INFO, 30 is WARNING, 40 is ERROR
                 },
                 {
                     "sink": "./logs/logs.log",
@@ -160,7 +161,7 @@ class Logger:
     def _create_logs_dir(self, directory="./logs"):
         os.makedirs(directory, exist_ok=True)
 
-    def error(self, *obj):
+    def error(self, *obj, show_traceback: bool = False):
         """
         Logs the most recent traceback error in a readable format, useful for. Uses the ERROR level
         If objects are provided, they will be pretty-printed along with the traceback.
@@ -168,8 +169,9 @@ class Logger:
         Args:
             *obj: Variable number of objects to print along with the traceback
         """
-        recent_traceback = traceback.format_exc(limit=10)
-        self.logger.error(recent_traceback)
+        if show_traceback:
+            recent_traceback = traceback.format_exc(limit=10)
+            self.logger.error(recent_traceback)
         if obj:
             for item in obj:
                 self.logger.opt(depth=1).error(pretty_repr(item))
@@ -193,6 +195,16 @@ class Logger:
         """
         for item in obj:
             self.logger.opt(depth=1).info(pretty_repr(item))
+
+    def debug(self, *obj):
+        """
+        Logs debug messages with pretty-printing for any object types. Uses the DEBUG level.
+
+        Args:
+            *obj: Variable number of objects to log (can be any type including tuple)
+        """
+        for item in obj:
+            self.logger.opt(depth=1).debug(pretty_repr(item))
 
 
 pprint = print
